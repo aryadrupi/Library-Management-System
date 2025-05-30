@@ -1,53 +1,78 @@
-from django.shortcuts import render,redirect
-
 from django.views import View
 
-from .forms import BorrowerForm
-
-from django.views.generic.edit import CreateView
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Borrower
 
 from .forms import BorrowerForm
 
-from django.views.generic import DetailView
+# Create your views here.
 
-from django.shortcuts import get_object_or_404
+class BorrowerListView(View):
 
-from .models import Borrower
+    def get(self,request,args,*kwargs):
 
-class BorrowerCreateView(CreateView):
+        borrowers = Borrower.objects.get('book')
 
-    model = Borrower
-
-    form_class = BorrowerForm
-
-    template_name = 'add_borrower.html'
-
-    success_url = redirect('borrower_list')  
-
-class BorrowerUpdateDateView(View):
-
-    model = Borrower
-
-    fields = ['borrowed_date']
-
-    template_name = 'update_borrowed_date.html'
-
-    success_url = redirect('borrower_list')           
-          
-class BorrowerDetailView(DetailView):
-
-    model = Borrower
-
-    template_name = 'borrower_detail.html'
-
-    context_object_name = 'borrower'
-
-    def get_object(self):
-
-        return get_object_or_404(Borrower, pk=self.kwargs.get('pk'))
+        return render(request, 'borrower_list.html', {'borrowers': borrowers})
 
 
+class BorrowerCreateView(View):
+
+    def get(self,request,args,*kwargs):
+
+        form = BorrowerForm()
+
+        return render(request, 'add_borrower.html', {'form': form})
+
+    def post(self,request,args,*kwargs):
+
+        form = BorrowerForm(request.POST)
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect('borrower_list')
+        
+        return render(request, 'add_borrower.html', {'form': form})
 
 
+class BorrowerDetailView(View):
+
+    def get(self,request,args,*kwargs):
+
+       pk= kwargs.get('pk')
+
+       borrower = get_object_or_404(Borrower, pk=pk)
+
+       return render(request, 'borrower_detail.html', {'borrower': borrower})
+
+
+class BorrowerUpdateView(View):
+
+    def get(self,request,args,*kwargs ):
+
+        pk= kwargs.get('pk')
+
+        borrower = get_object_or_404(Borrower, pk=pk)
+
+        form = BorrowerForm(instance=borrower)
+
+        return render(request, 'borrower_date.html', {'form': form})
+
+    def post(self,request,args,*kwargs):
+
+        pk= kwargs.get('pk')
+
+        borrower = get_object_or_404(Borrower, pk=pk)
+
+        form = BorrowerForm(request.POST, instance=borrower)
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect('borrower_list')
+        
+        return render(request, 'borrower_date.html', {'form': form})
