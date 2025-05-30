@@ -4,31 +4,50 @@ from django.views import View
 
 from .forms import BorrowerForm
 
-# Create your views here.
+from django.views.generic.edit import CreateView
 
-class borroweddateUpdateView(View) :
-     
-     def get(self,request,*args,**kwargs) :
-          
-          return render(request,'borrower/borrower-update.html')
-     
-     def post(self,request,*args,**kwargs) :
-          
-          uuid = kwargs.get('uuid')
-          
-          form = BorrowerForm(request.POST,request.FILES,instance = uuid)
+from .models import Borrower
 
-          if form.is_valid() :
-               
-               form.save()
+from .forms import BorrowerForm
 
-               return redirect('book')
+from django.views.generic import DetailView
+
+from django.shortcuts import get_object_or_404
+
+from .models import Borrower
+
+class BorrowerCreateView(CreateView):
+
+    model = Borrower
+
+    form_class = BorrowerForm
+
+    template_name = 'add_borrower.html'
+
+    success_url = redirect('borrower_list')  
+
+class BorrowerUpdateDateView(View):
+
+    model = Borrower
+
+    fields = ['borrowed_date']
+
+    template_name = 'update_borrowed_date.html'
+
+    success_url = redirect('borrower_list')           
           
-          else :
-               
-               data = {'form':form}
-               
-               return render(request,'borrower/borrower-update.html',context = data)
+class BorrowerDetailView(DetailView):
+
+    model = Borrower
+
+    template_name = 'borrower_detail.html'
+
+    context_object_name = 'borrower'
+
+    def get_object(self):
+
+        return get_object_or_404(Borrower, pk=self.kwargs.get('pk'))
+
 
 
 
