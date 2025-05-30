@@ -1,0 +1,70 @@
+{%extends 'base.html'%}
+
+{%block section%}
+<!-- banner section start --> 
+
+<div class="banner_section layout_padding">
+    <div class="container">
+       <div class="row">
+          <div class="col-md-6">
+             <div id="banner_slider" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                   <div class="carousel-item active">
+                      <div class="banner_taital_main">
+                         <h1 class="banner_taital">Car Rent <br><span style="color: #fe5b29;">For You</span></h1>
+                         <p class="banner_text">Welcome to Quick Car – Your Ride, Your Way!
+                           Find the perfect car for every journey. Whether it’s a weekend getaway, a business trip, or a daily commute, we offer affordable, reliable, and hassle-free car rentals. Book in minutes and hit the road with confidence!
+                           
+                           </p>
+                         <div class="btn_main">
+                            <div class="contact_bt"><a href="{% url 'service'%}">Read More</a></div>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="carousel-item">
+                      <div class="banner_taital_main">
+                         <h1 class="banner_taital">Car Rent <br><span style="color: #fe5b29;">For You</span></h1>
+                         <p class="banner_text">Drive Your Freedom with Quick Car
+                           Choose from a wide range of well-maintained cars at unbeatable prices. Easy booking, flexible rental periods, and no hidden fees—experience car rental made simple and convenient.
+                           
+                           </p>
+                         <div class="btn_main">
+                            <div class="contact_bt"><a href="{% url 'service'%}">Read More</a></div>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="carousel-item">
+                      <div class="banner_taital_main">
+                         <h1 class="banner_taital">Car Rent <br><span style="color: #fe5b29;">For You</span></h1>
+                         <p class="banner_text">Ready to Hit the Road?
+                           At Quick Car, we make renting a car quick and easy. Browse our collection, book your ride in minutes, and enjoy smooth travels—anytime, anywhere.</p>
+                         <div class="btn_main">
+                            <div class="contact_bt"><a href="{% url 'service'%}">Read More</a></div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <a class="carousel-control-prev" href="#banner_slider" role="button" data-slide="prev">
+                   <i class="fa fa-angle-left"></i>
+                </a>
+                <a class="carousel-control-next" href="#banner_slider" role="button" data-slide="next">
+                   <i class="fa fa-angle-right"></i>
+                </a>
+             </div>
+          </div>
+          <div class="col-md-6">
+             <div class="banner_img"><img src="/static/images/banner-img.png"></div>
+          </div>
+       </div>
+       {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+    </div>
+ </div>
+ <!-- banner section end -->
+{%endblock%}
